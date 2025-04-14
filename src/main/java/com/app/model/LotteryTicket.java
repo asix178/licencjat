@@ -1,17 +1,17 @@
 package com.app.model;
 
 public class LotteryTicket {
-    private Long id;
+    private final Long id;
     private String number;
-    private Cathegory cathegory;
-    private Accolade accolade;
+    private Category category;
+    private Prize prize;
     private Boolean isUsed = false;
 
-    public LotteryTicket(Long id, String number, Cathegory cathegory, Accolade accolade, Boolean isUsed) {
+    public LotteryTicket(Long id, String number, Category category, Prize prize, Boolean isUsed) {
         this.id = id;
         this.number = number;
-        this.cathegory = cathegory;
-        this.accolade = accolade;
+        this.category = category;
+        this.prize = prize;
         this.isUsed = isUsed;
     }
 
@@ -27,20 +27,20 @@ public class LotteryTicket {
         this.number = number;
     }
 
-    public Cathegory getCathegory() {
-        return cathegory;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCathegory(Cathegory cathegory) {
-        this.cathegory = cathegory;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
-    public Accolade getAccolade() {
-        return accolade;
+    public Prize getAccolade() {
+        return prize;
     }
 
-    public void setAccolade(Accolade accolade) {
-        this.accolade = accolade;
+    public void setAccolade(Prize accolade) {
+        this.prize = accolade;
     }
 
     public Boolean getUsed() {

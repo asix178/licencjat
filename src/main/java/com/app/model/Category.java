@@ -1,10 +1,10 @@
 package com.app.model;
 
-public class Cathegory {
-    private Long id;
+public class Category {
+    private final Long id;
     private String name;
 
-    public Cathegory(Long id, String name) {
+    public Category(Long id, String name) {
         this.id = id;
         this.name = name;
     }
