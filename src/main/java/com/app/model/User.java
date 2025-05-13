@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private Long id;
+    private final Long id;
     private String login;
     private List<LotteryTicket> lotteryTickets;
 

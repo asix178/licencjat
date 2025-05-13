@@ -11,10 +11,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "category")
-public class CategoryEntity {
+@Table(name = "admin")
+public class AdministratorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String login;
+    private String password;
+    private String email;
 }

@@ -1,7 +1,7 @@
 package com.app.model;
 
 public class Administrator {
-    private Long id;
+    private final Long id;
     private String login;
     private String password;
     private String email;
