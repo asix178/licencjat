@@ -56,6 +56,17 @@
 			<artifactId>postgresql</artifactId>
 			<version>42.7.5</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.password4j/password4j -->
+		<dependency>
+			<groupId>com.password4j</groupId>
+			<artifactId>password4j</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

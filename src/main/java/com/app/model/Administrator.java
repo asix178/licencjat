@@ -1,19 +1,20 @@
 package com.app.model;
 
+import java.util.UUID;
+
 public class Administrator {
-    private final Long id;
+    private final UUID id;
     private String login;
     private String password;
-    private String email;
 
-    public Administrator(Long id, String login, String password, String email) {
+
+    public Administrator(UUID id, String login, String password) {
         this.id = id;
         this.login = login;
         this.password = password;
-        this.email = email;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -33,11 +34,4 @@ public class Administrator {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
