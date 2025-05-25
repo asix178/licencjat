@@ -1,23 +1,22 @@
 package com.app.model;
 
-public class Category {
-    private final Long id;
-    private String name;
+import lombok.Getter;
 
-    public Category(Long id, String name) {
+import java.util.UUID;
+
+@Getter
+public class Category {
+    private final UUID id;
+    private final String name;
+
+    public Category(UUID id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public Category(String name) {
+        this.id = UUID.randomUUID();
         this.name = name;
     }
+
 }

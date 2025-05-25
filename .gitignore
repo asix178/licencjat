@@ -28,3 +28,4 @@ replay_pid*
 /licencjat.iml
 /target/
 /.idea/
+/out/production/licencjat/application.properties

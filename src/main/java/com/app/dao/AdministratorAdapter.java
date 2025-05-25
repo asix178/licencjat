@@ -11,19 +11,18 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AdministratorAdapter {
-private final AdministratorRepository administratorRepository;
+    private final AdministratorRepository administratorRepository;
 
-public Administrator findAdministratorById(long id) {
-    AdministratorEntity administratorFetched = administratorRepository.getReferenceById(id);
-    return administratorFetched.toDomain();
-}
+    public Administrator findAdministratorById(long id) {
+        AdministratorEntity administratorFetched = administratorRepository.getReferenceById(id);
+        return administratorFetched.toDomain();
+    }
 
     public Administrator findAdministratorByLogin(String login) {
         Optional<AdministratorEntity> administratorFetched = administratorRepository.findByLogin(login);
         if (administratorFetched.isPresent()) {
             return administratorFetched.get().toDomain();
-        }
-        else {
+        } else {
             throw new NoSuchElementException();
         }
     }
