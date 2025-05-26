@@ -13,8 +13,8 @@ public class CategoryAdapter {
     private final CategoryRepository categoryRepository;
 
     public List<Category> getAll() {
-        List<CategoryEntity> categoryEntities = categoryRepository.findAll();
-        return categoryEntities.stream().map(CategoryEntity::toDomain).toList();
+        List<CategoryEntity> categoryEntityList = categoryRepository.findAll();
+        return categoryEntityList.stream().map(CategoryEntity::toDomain).toList();
     }
 
     public void add(Category category) {

@@ -31,4 +31,8 @@ public class PrizeAdapter {
             throw new RuntimeException(e);
         }
     }
+    public List<Prize> getAll() {
+        List<PrizeEntity> prizeEntityList = prizeRepository.findAll();
+        return prizeEntityList.stream().map(PrizeEntity::toDomain).toList();
+    }
 }

@@ -13,7 +13,7 @@ import java.util.Optional;
 public class AdministratorAdapter {
     private final AdministratorRepository administratorRepository;
 
-    public Administrator findAdministratorById(long id) {
+    public Administrator findAdministratorById(Long id) {
         AdministratorEntity administratorFetched = administratorRepository.getReferenceById(id);
         return administratorFetched.toDomain();
     }

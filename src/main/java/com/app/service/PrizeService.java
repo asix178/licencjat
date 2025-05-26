@@ -22,4 +22,9 @@ public class PrizeService {
         }
         prizeAdapter.addAll(prizeList);
     }
+
+    public List<Prize> getAllPrizes() {
+        return prizeAdapter.getAll();
+    }
+
 }
