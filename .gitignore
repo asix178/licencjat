@@ -29,3 +29,4 @@ replay_pid*
 /target/
 /.idea/
 /out/production/licencjat/application.properties
+/testQR.pdf.pdf
