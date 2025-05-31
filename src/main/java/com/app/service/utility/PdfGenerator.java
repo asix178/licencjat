@@ -14,22 +14,23 @@ import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
 
 public class PdfGenerator {
 
     private static final int QR_CODE_SIZE = 150;
-    private static final int QR_PER_PAGE = 20;
+    private static final int QR_PER_PAGE = 12;
     private static final int COLS = 4;
     private static final int MARGIN = 50;
     private static final int SPACING = 20;
 
 
-    public static void generatePdfWithQrCodes(List<String> uuids, String outputPath) throws IOException, WriterException {
+    public static byte[] generatePdfWithQrCodes(List<String> uuids, String outputPath) throws IOException, WriterException {
         PDDocument document = new PDDocument();
 
-        for (int i = 0; i < uuids.size(); i += QR_PER_PAGE) {
+        for (int i = 0; i < Math.ceil((double) uuids.size() /QR_PER_PAGE)*QR_PER_PAGE; i += QR_PER_PAGE) {
             PDPage page = new PDPage(new PDRectangle(PDRectangle.A4.getHeight(), PDRectangle.A4.getWidth()));
             document.addPage(page);
 
@@ -52,9 +53,12 @@ public class PdfGenerator {
 
             contentStream.close();
         }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         document.save(outputPath + ".pdf");
+        document.save(outputStream);
         document.close();
+        return outputStream.toByteArray();
     }
 
     private static BufferedImage generateQrCode(String text) throws WriterException {

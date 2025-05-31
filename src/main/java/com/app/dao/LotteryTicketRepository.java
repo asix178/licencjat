@@ -10,4 +10,6 @@ import java.util.UUID;
 public interface LotteryTicketRepository extends JpaRepository<LotteryTicketEntity, Long> {
     Optional<LotteryTicketEntity> findByDomainId(UUID id);
 
+    Optional<LotteryTicketEntity> findByNumber(Long number);
+
 }

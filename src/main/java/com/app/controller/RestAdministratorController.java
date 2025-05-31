@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping ("administrator")
+@CrossOrigin(origins="*")
 public class RestAdministratorController {
 private final AdministratorService administratorService;
 @PostMapping

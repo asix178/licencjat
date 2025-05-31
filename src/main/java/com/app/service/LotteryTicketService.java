@@ -21,19 +21,28 @@ public class LotteryTicketService {
     }
 
     public LotteryTicket getTicketById(UUID id) {
-        return lotteryTicketAdapter.findLotteryTicketById(id);
+        return lotteryTicketAdapter.findLotteryTicketByUUID(id);
+    }
+
+    public LotteryTicket getTicketByNumber(Long number) {
+        return lotteryTicketAdapter.findLotteryTicketByNumber(number);
     }
 
     public void generateTickets() {
         lotteryTicketAdapter.generateTickets();
     }
 
-    public void generateQRCodes(){
+    public byte[] generateQRCodes(){
         List<String> stringList = this.getAllTickets().stream().map(ticket -> ticket.getId().toString()).toList();
         try {
-            PdfGenerator.generatePdfWithQrCodes(stringList, "testQR");
+            return PdfGenerator.generatePdfWithQrCodes(stringList, "testQR");
         } catch (IOException | WriterException e) {
             throw new RuntimeException(e);
         }
+
+    }
+
+    public void deleteAllTickets() {
+        lotteryTicketAdapter.deleteAll();
     }
 }

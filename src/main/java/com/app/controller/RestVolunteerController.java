@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("volunteer")
+@CrossOrigin(origins="*")
 public class RestVolunteerController {
     private final VolunteerService volunteerService;
     @PostMapping

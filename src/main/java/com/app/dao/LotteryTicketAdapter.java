@@ -16,14 +16,21 @@ import java.util.UUID;
 public class LotteryTicketAdapter {
     private final LotteryTicketRepository lotteryTicketRepository;
     private final PrizeRepository prizeRepository;
+    private final CategoryRepository categoryRepository;
 
     public List<LotteryTicket> getAll() {
         List<LotteryTicketEntity> lotteryTicketEntityList = lotteryTicketRepository.findAll();
         return lotteryTicketEntityList.stream().map(LotteryTicketEntity::toDomain).toList();
     }
 
-    public LotteryTicket findLotteryTicketById(UUID id) {
+    public LotteryTicket findLotteryTicketByUUID(UUID id) {
         LotteryTicketEntity lotteryTicketEntity = lotteryTicketRepository.findByDomainId(id)
+                .orElseThrow(NoSuchElementException::new);
+        return lotteryTicketEntity.toDomain();
+    }
+
+    public LotteryTicket findLotteryTicketByNumber(Long number) {
+        LotteryTicketEntity lotteryTicketEntity = lotteryTicketRepository.findByNumber(number)
                 .orElseThrow(NoSuchElementException::new);
         return lotteryTicketEntity.toDomain();
     }
@@ -46,6 +53,12 @@ public class LotteryTicketAdapter {
             ticketNumber++;
         }
         lotteryTicketRepository.saveAll(newLotteryTicketEntityList);
+    }
+
+    public void deleteAll(){
+        lotteryTicketRepository.deleteAll();
+        prizeRepository.deleteAll();
+        categoryRepository.deleteAll();
     }
 
 }

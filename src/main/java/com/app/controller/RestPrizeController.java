@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("prize")
+@CrossOrigin(origins="*")
 public class RestPrizeController {
     private final PrizeService prizeService;
     @PostMapping
@@ -19,5 +20,10 @@ public class RestPrizeController {
     @GetMapping
     public ResponseEntity<?> getAllPrizes() {
         return ResponseEntity.ok(prizeService.getAllPrizes());
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<?> countPrizes() {
+        return ResponseEntity.ok(prizeService.countPrizesByName());
     }
 }
