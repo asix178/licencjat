@@ -61,4 +61,8 @@ public class LotteryTicketAdapter {
         categoryRepository.deleteAll();
     }
 
+    public void setIsUsed(UUID uuid){
+        lotteryTicketRepository.setIsUsed(uuid);
+    }
+
 }

@@ -45,4 +45,8 @@ public class LotteryTicketService {
     public void deleteAllTickets() {
         lotteryTicketAdapter.deleteAll();
     }
+
+    public void setisUsed(UUID uuid){
+        lotteryTicketAdapter.setIsUsed(uuid);
+    }
 }

@@ -53,4 +53,10 @@ public class RestLotteryTicketController {
         lotteryTicketService.deleteAllTickets();
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/isUsed/{uuid}")
+    public ResponseEntity<?> setIsUsed(@PathVariable UUID uuid){
+        lotteryTicketService.setisUsed(uuid);
+        return ResponseEntity.noContent().build();
+    }
 }
