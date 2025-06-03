@@ -33,9 +33,9 @@ public class LotteryTicketService {
     }
 
     public byte[] generateQRCodes(){
-        List<String> stringList = this.getAllTickets().stream().map(ticket -> ticket.getId().toString()).toList();
+        List<LotteryTicket> ticketList = this.getAllTickets();
         try {
-            return PdfGenerator.generatePdfWithQrCodes(stringList, "testQR");
+            return PdfGenerator.generatePdfWithQrCodes(ticketList, "testQR");
         } catch (IOException | WriterException e) {
             throw new RuntimeException(e);
         }

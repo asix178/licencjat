@@ -1,5 +1,6 @@
 package com.app.service.utility;
 
+import com.app.model.LotteryTicket;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -12,6 +13,8 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -21,45 +24,62 @@ import java.util.*;
 public class PdfGenerator {
 
     private static final int QR_CODE_SIZE = 150;
-    private static final int QR_PER_PAGE = 12;
-    private static final int COLS = 4;
-    private static final int MARGIN = 50;
-    private static final int SPACING = 20;
+    private static final int MARGIN = 10;
+    private static final int SPACING = 50;
 
 
-    public static byte[] generatePdfWithQrCodes(List<String> uuids, String outputPath) throws IOException, WriterException {
+    public static byte[] generatePdfWithQrCodes(List<LotteryTicket> lotteryTicketList, String outputPath) throws IOException, WriterException {
         PDDocument document = new PDDocument();
+        final int UUIDS_PER_PAGE = 4;
 
-        for (int i = 0; i < Math.ceil((double) uuids.size() /QR_PER_PAGE)*QR_PER_PAGE; i += QR_PER_PAGE) {
-            PDPage page = new PDPage(new PDRectangle(PDRectangle.A4.getHeight(), PDRectangle.A4.getWidth()));
+        for (int i = 0; i < lotteryTicketList.size(); i += UUIDS_PER_PAGE) {
+            PDPage page = new PDPage(new PDRectangle(PDRectangle.A4.getWidth(), PDRectangle.A4.getHeight()));
             document.addPage(page);
-
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
-            List<String> subList = uuids.subList(i, Math.min(i + QR_PER_PAGE, uuids.size()));
+            List<LotteryTicket> subList = lotteryTicketList.subList(i, Math.min(i + UUIDS_PER_PAGE, lotteryTicketList.size()));
 
-            for (int j = 0; j < subList.size(); j++) {
-                String uuid = subList.get(j);
+            for (int row = 0; row < subList.size(); row++) {
+                LotteryTicket ticket = subList.get(row);
+                String uuid = ticket.getId().toString();
                 BufferedImage qrImage = generateQrCode(uuid);
-
-                int row = j / COLS;
-                int col = j % COLS;
-
-                float x = MARGIN + col * (QR_CODE_SIZE + SPACING);
-                float y = page.getMediaBox().getHeight() - MARGIN - (row + 1) * (QR_CODE_SIZE + SPACING);
-
                 PDImageXObject pdImage = LosslessFactory.createFromImage(document, qrImage);
-                contentStream.drawImage(pdImage, x, y, QR_CODE_SIZE, QR_CODE_SIZE);
+
+                for (int col = 0; col < 3; col++) {
+                    float x = MARGIN + col * (QR_CODE_SIZE + SPACING);
+
+                    float startY = page.getMediaBox().getHeight() - MARGIN - QR_CODE_SIZE;
+                    float y = startY - row * (QR_CODE_SIZE + SPACING);
+
+                    // Rysuj QR
+                    contentStream.drawImage(pdImage, x, y, QR_CODE_SIZE, QR_CODE_SIZE);
+
+                    // Podpis 1 — numer losu
+                    contentStream.beginText();
+                    contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
+                    contentStream.newLineAtOffset(x + 5, y - 14);
+                    contentStream.showText("Numer: " + ticket.getNumber());
+                    contentStream.endText();
+
+                    // Podpis 2 — kategoria
+                    contentStream.beginText();
+                    contentStream.setFont(PDType1Font.HELVETICA, 9);
+                    contentStream.newLineAtOffset(x + 5, y - 28);
+                    contentStream.showText("Kategoria: " + ticket.getCategory().getName());
+                    contentStream.endText();
+                }
+
             }
 
             contentStream.close();
         }
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         document.save(outputPath + ".pdf");
         document.save(outputStream);
         document.close();
         return outputStream.toByteArray();
     }
+
 
     private static BufferedImage generateQrCode(String text) throws WriterException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
