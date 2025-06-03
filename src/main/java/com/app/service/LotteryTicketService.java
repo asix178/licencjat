@@ -49,4 +49,8 @@ public class LotteryTicketService {
     public void setisUsed(UUID uuid){
         lotteryTicketAdapter.setIsUsed(uuid);
     }
+
+    public Boolean isAssigned(UUID uuid){
+        return lotteryTicketAdapter.isAssigned(uuid);
+    }
 }

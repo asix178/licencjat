@@ -1,36 +1,26 @@
 package com.app.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+@Getter
+@Setter
 public class User {
-    private final Long id;
+
+    private final UUID id;
     private String login;
+    private String password;
     private List<LotteryTicket> lotteryTickets;
 
-    public User(Long id, String login) {
+    public User(UUID id, String login, String password, List<LotteryTicket> lotteryTickets) {
         this.id = id;
         this.login = login;
-        lotteryTickets = new ArrayList<LotteryTicket>();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public List<LotteryTicket> getLotteryTickets() {
-        return lotteryTickets;
-    }
-
-    public void setLotteryTickets(List<LotteryTicket> lotteryTickets) {
+        this.password = password;
         this.lotteryTickets = lotteryTickets;
     }
+
 }

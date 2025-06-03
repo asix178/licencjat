@@ -59,4 +59,9 @@ public class RestLotteryTicketController {
         lotteryTicketService.setisUsed(uuid);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/isAssigned/{uuid}")
+    public ResponseEntity<?> isAssigned(@PathVariable UUID uuid){
+        return ResponseEntity.ok(lotteryTicketService.isAssigned(uuid));
+    }
 }

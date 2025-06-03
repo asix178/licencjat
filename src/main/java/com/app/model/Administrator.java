@@ -1,7 +1,12 @@
 package com.app.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.UUID;
 
+@Getter
+@Setter
 public class Administrator {
     private final UUID id;
     private String login;
@@ -11,26 +16,6 @@ public class Administrator {
     public Administrator(UUID id, String login, String password) {
         this.id = id;
         this.login = login;
-        this.password = password;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
     }
 

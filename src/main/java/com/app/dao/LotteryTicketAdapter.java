@@ -2,14 +2,12 @@ package com.app.dao;
 
 import com.app.dbmodel.LotteryTicketEntity;
 import com.app.dbmodel.PrizeEntity;
+import com.app.dbmodel.UserEntity;
 import com.app.model.LotteryTicket;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +15,7 @@ public class LotteryTicketAdapter {
     private final LotteryTicketRepository lotteryTicketRepository;
     private final PrizeRepository prizeRepository;
     private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
 
     public List<LotteryTicket> getAll() {
         List<LotteryTicketEntity> lotteryTicketEntityList = lotteryTicketRepository.findAll();
@@ -63,6 +62,16 @@ public class LotteryTicketAdapter {
 
     public void setIsUsed(UUID uuid){
         lotteryTicketRepository.setIsUsed(uuid);
+    }
+
+    public Boolean isAssigned(UUID uuid){
+        Optional<LotteryTicketEntity> foundTicket = userRepository.findAll()
+                .stream()
+                .map(UserEntity::getLotteryTickets)
+                .flatMap(List::stream)
+                .filter(ticket -> Objects.equals(uuid,ticket.getDomainId()))
+                .findFirst();
+        return foundTicket.isPresent();
     }
 
 }
