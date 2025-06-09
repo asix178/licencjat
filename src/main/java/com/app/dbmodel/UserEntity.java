@@ -24,17 +24,18 @@ public class UserEntity {
     private UUID domainId;
     private String login;
     private String password;
+    private Boolean isWinner;
     @OneToMany
     private List<LotteryTicketEntity> lotteryTickets;
 
     //change from domain class
     public static UserEntity fromDomain(User user) {
-        return new UserEntity(null,user.getId(), user.getLogin(), user.getPassword(),null);
+        return new UserEntity(null,user.getId(), user.getLogin(), user.getPassword(),false,null);
     }
 
 
     //change to domain class
     public User toDomain(){
-        return new User(domainId, login, password, lotteryTickets.stream().map(LotteryTicketEntity::toDomain).toList());
+        return new User(domainId, login, password, isWinner, lotteryTickets.stream().map(LotteryTicketEntity::toDomain).toList());
     }
 }

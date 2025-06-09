@@ -53,4 +53,8 @@ public class LotteryTicketService {
     public Boolean isAssigned(UUID uuid){
         return lotteryTicketAdapter.isAssigned(uuid);
     }
+
+    public UUID setWinner(UUID uuid) {
+        return lotteryTicketAdapter.setWinner(uuid);
+    }
 }

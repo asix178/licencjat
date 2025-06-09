@@ -3,6 +3,7 @@ package com.app.dao;
 import com.app.dbmodel.LotteryTicketEntity;
 import com.app.dbmodel.PrizeEntity;
 import com.app.dbmodel.UserEntity;
+import com.app.dbmodel.UserTicketEntity;
 import com.app.model.LotteryTicket;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ public class LotteryTicketAdapter {
     private final PrizeRepository prizeRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final UserTicketRepository userTicketRepository;
 
     public List<LotteryTicket> getAll() {
         List<LotteryTicketEntity> lotteryTicketEntityList = lotteryTicketRepository.findAll();
@@ -74,4 +76,16 @@ public class LotteryTicketAdapter {
         return foundTicket.isPresent();
     }
 
+    public UUID setWinner(UUID uuid) {
+        Optional<UserTicketEntity> userTicketEntity = userTicketRepository.findByTicketId(uuid);
+        if(userTicketEntity.isPresent()){
+            Optional<UserEntity> userEntity = userRepository.findByDomainId(userTicketEntity.get().getUserId());
+            if(userEntity.isPresent()){
+                userRepository.clearWinner();
+                userRepository.setWinner(userEntity.get().getDomainId());
+                return userEntity.get().getDomainId();
+            }
+        }
+        return null;
+    }
 }

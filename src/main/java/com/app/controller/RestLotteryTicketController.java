@@ -1,8 +1,11 @@
 package com.app.controller;
 
+import com.app.controller.response.WinnerMessage;
 import com.app.service.LotteryTicketService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
@@ -14,6 +17,10 @@ import java.util.UUID;
 @CrossOrigin(origins="*")
 public class RestLotteryTicketController {
     private final LotteryTicketService lotteryTicketService;
+
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     @GetMapping
     public ResponseEntity<?> getAllTickets() {
@@ -63,5 +70,13 @@ public class RestLotteryTicketController {
     @GetMapping("/isAssigned/{uuid}")
     public ResponseEntity<?> isAssigned(@PathVariable UUID uuid){
         return ResponseEntity.ok(lotteryTicketService.isAssigned(uuid));
+    }
+
+    @PutMapping("/winner/{uuid}")
+    public ResponseEntity<?> setWinner(@PathVariable UUID uuid){
+        UUID userId = lotteryTicketService.setWinner(uuid);
+        Long ticketNumber = lotteryTicketService.getTicketById(uuid).getNumber();
+        messagingTemplate.convertAndSend("/topic/winner", new WinnerMessage(userId, ticketNumber));
+        return ResponseEntity.noContent().build();
     }
 }

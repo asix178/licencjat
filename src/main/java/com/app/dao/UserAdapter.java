@@ -48,4 +48,6 @@ public class UserAdapter {
         Optional<UserEntity> userFetched = userRepository.findByDomainId(id);
         return userFetched.get().toDomain();
     }
+
+
 }
