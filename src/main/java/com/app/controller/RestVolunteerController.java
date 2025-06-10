@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("volunteer")
@@ -19,18 +21,18 @@ public class RestVolunteerController {
             if(result){
                 return ResponseEntity.ok(true);
             }
-            return ResponseEntity.badRequest().body(false);
+            return ResponseEntity.badRequest().body("Wolontariusz o takim loginie już istnieje");
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
     @PutMapping
     public ResponseEntity<?> login(@RequestBody VolunteerRequest volunteerRequest) {
-        Boolean result = volunteerService.login(volunteerRequest);
-        if(result){
-            return ResponseEntity.ok(true);
+        String result = volunteerService.login(volunteerRequest);
+        if(Objects.nonNull(result)){
+            return ResponseEntity.ok(result);
         }
-        return ResponseEntity.badRequest().body(false);
+        return ResponseEntity.badRequest().build();
     }
 
 }

@@ -21,19 +21,20 @@ public class LotteryTicketEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
     private UUID domainId;
-    private Long number;
+    private String number;
     @ManyToOne
     private CategoryEntity category;
     @OneToOne
     private PrizeEntity prize;
     private Boolean isUsed = false;
+    private UUID volunteerUuid;
 
     public static LotteryTicketEntity fromDomain(LotteryTicket lotteryTicket) {
         return new LotteryTicketEntity(null, lotteryTicket.getId(), lotteryTicket.getNumber(), null
-                , null, lotteryTicket.getIsUsed());
+                , null, lotteryTicket.getIsUsed(), lotteryTicket.getVolunteerUuid());
     }
 
     public LotteryTicket toDomain() {
-        return new LotteryTicket(domainId, number, category.toDomain(),prize.toDomain(), isUsed);
+        return new LotteryTicket(domainId, number, category.toDomain(),prize.toDomain(), isUsed, null);
     }
 }

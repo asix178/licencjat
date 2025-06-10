@@ -5,6 +5,7 @@ import com.app.dao.AdministratorAdapter;
 import com.app.model.Administrator;
 import com.app.security.Bcrypt;
 import com.password4j.Password;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +17,17 @@ import java.util.UUID;
 public class AdministratorService {
     private final AdministratorAdapter administratorAdapter;
 
-    public Boolean login(AdministratorRequest administratorRequest) {
+    public String login(AdministratorRequest administratorRequest) {
         try {
             Administrator administrator = administratorAdapter.findAdministratorByLogin(administratorRequest.getLogin());
-            return Password.check(administratorRequest.getPassword(), administrator.getPassword())
-                    .with(Bcrypt.getBcryptFunction());
+            if (Password.check(administratorRequest.getPassword(), administrator.getPassword())
+                    .with(Bcrypt.getBcryptFunction())) {
+                return Jwts.builder().claim("adminId", administrator.getId()).claim("role", "admin").compact();
+            }
         } catch (Exception e) {
-            return false;
+            return null;
         }
+        return null;
     }
 
     public Boolean register(AdministratorRequest administratorRequest) {

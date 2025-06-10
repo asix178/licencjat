@@ -1,7 +1,6 @@
 package com.app.controller;
 
 import com.app.controller.request.AddTicketRequest;
-import com.app.controller.request.AdministratorRequest;
 import com.app.controller.request.UserRequest;
 import com.app.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ public class RestUserController {
 
                 return ResponseEntity.ok(true);
             }
-            return ResponseEntity.badRequest().body(false);
+            return ResponseEntity.badRequest().body("Użytkownik o takim loginie już istnieje");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

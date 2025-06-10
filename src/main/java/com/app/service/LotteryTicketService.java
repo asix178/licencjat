@@ -24,7 +24,7 @@ public class LotteryTicketService {
         return lotteryTicketAdapter.findLotteryTicketByUUID(id);
     }
 
-    public LotteryTicket getTicketByNumber(Long number) {
+    public LotteryTicket getTicketByNumber(String number) {
         return lotteryTicketAdapter.findLotteryTicketByNumber(number);
     }
 
@@ -42,12 +42,8 @@ public class LotteryTicketService {
 
     }
 
-    public void deleteAllTickets() {
-        lotteryTicketAdapter.deleteAll();
-    }
-
-    public void setisUsed(UUID uuid){
-        lotteryTicketAdapter.setIsUsed(uuid);
+    public void setisUsed(UUID uuid, UUID volunteerUuid){
+        lotteryTicketAdapter.setIsUsed(uuid, volunteerUuid);
     }
 
     public Boolean isAssigned(UUID uuid){

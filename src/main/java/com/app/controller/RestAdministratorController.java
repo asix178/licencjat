@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("administrator")
@@ -29,10 +31,10 @@ public class RestAdministratorController {
 
     @PutMapping
     public ResponseEntity<?> login(@RequestBody AdministratorRequest administratorRequest) {
-        Boolean result = administratorService.login(administratorRequest);
-        if (result) {
-            return ResponseEntity.ok(true);
+        String result = administratorService.login(administratorRequest);
+        if (Objects.nonNull(result)) {
+            return ResponseEntity.ok(result);
         }
-        return ResponseEntity.badRequest().body(false);
+        return ResponseEntity.badRequest().build();
     }
 }

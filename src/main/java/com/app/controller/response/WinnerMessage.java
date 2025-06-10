@@ -13,5 +13,5 @@ import java.util.UUID;
 @Setter
 public class WinnerMessage {
     private UUID userId;
-    private Long number;
+    private String number;
 }

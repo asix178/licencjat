@@ -13,11 +13,11 @@ import java.util.UUID;
 public interface LotteryTicketRepository extends JpaRepository<LotteryTicketEntity, Long> {
     Optional<LotteryTicketEntity> findByDomainId(UUID id);
 
-    Optional<LotteryTicketEntity> findByNumber(Long number);
+    Optional<LotteryTicketEntity> findByNumber(String number);
 
-    @Query("UPDATE LotteryTicketEntity lt SET lt.isUsed = true WHERE lt.domainId = :id")
+    @Query("UPDATE LotteryTicketEntity lt SET lt.isUsed = true, lt.volunteerUuid = :volunteerUuid WHERE lt.domainId = :id")
     @Modifying
     @Transactional
-    void setIsUsed(UUID id);
+    void setIsUsed(UUID id, UUID volunteerUuid);
 
 }

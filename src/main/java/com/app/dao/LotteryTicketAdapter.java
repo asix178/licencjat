@@ -15,7 +15,6 @@ import java.util.*;
 public class LotteryTicketAdapter {
     private final LotteryTicketRepository lotteryTicketRepository;
     private final PrizeRepository prizeRepository;
-    private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
     private final UserTicketRepository userTicketRepository;
 
@@ -30,7 +29,7 @@ public class LotteryTicketAdapter {
         return lotteryTicketEntity.toDomain();
     }
 
-    public LotteryTicket findLotteryTicketByNumber(Long number) {
+    public LotteryTicket findLotteryTicketByNumber(String number) {
         LotteryTicketEntity lotteryTicketEntity = lotteryTicketRepository.findByNumber(number)
                 .orElseThrow(NoSuchElementException::new);
         return lotteryTicketEntity.toDomain();
@@ -50,20 +49,15 @@ public class LotteryTicketAdapter {
         for (PrizeEntity prizeEntity : prizeEntityList) {
             newLotteryTicketEntityList.add(
                     new LotteryTicketEntity(
-                            null, UUID.randomUUID(),ticketNumber.longValue(), prizeEntity.getCategory(), prizeEntity,false));
+                            null, UUID.randomUUID(),addOffset(ticketNumber), prizeEntity.getCategory(), prizeEntity,false, null));
             ticketNumber++;
         }
         lotteryTicketRepository.saveAll(newLotteryTicketEntityList);
     }
 
-    public void deleteAll(){
-        lotteryTicketRepository.deleteAll();
-        prizeRepository.deleteAll();
-        categoryRepository.deleteAll();
-    }
 
-    public void setIsUsed(UUID uuid){
-        lotteryTicketRepository.setIsUsed(uuid);
+    public void setIsUsed(UUID uuid, UUID volunteerUuid){
+        lotteryTicketRepository.setIsUsed(uuid, volunteerUuid);
     }
 
     public Boolean isAssigned(UUID uuid){
@@ -87,5 +81,13 @@ public class LotteryTicketAdapter {
             }
         }
         return null;
+    }
+
+    private String addOffset(Integer ticketNumber){
+        String finalNumber = ticketNumber.toString();
+        while(finalNumber.length() < 4){
+            finalNumber = "0" + finalNumber;
+        }
+        return finalNumber;
     }
 }

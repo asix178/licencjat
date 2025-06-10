@@ -33,7 +33,7 @@ public class RestLotteryTicketController {
     }
 
     @GetMapping("/number/{number}")
-    public ResponseEntity<?> getTicketById(@PathVariable Long number) {
+    public ResponseEntity<?> getTicketById(@PathVariable String number) {
         return ResponseEntity.ok(lotteryTicketService.getTicketByNumber(number));
     }
 
@@ -55,15 +55,10 @@ public class RestLotteryTicketController {
         return ResponseEntity.ok(Base64.getEncoder().encodeToString(lotteryTicketService.generateQRCodes()));
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteAllTickets() {
-        lotteryTicketService.deleteAllTickets();
-        return ResponseEntity.noContent().build();
-    }
 
-    @PutMapping("/isUsed/{uuid}")
-    public ResponseEntity<?> setIsUsed(@PathVariable UUID uuid){
-        lotteryTicketService.setisUsed(uuid);
+    @PutMapping("/isUsed/{uuid}/volunteer/{volunteerUuid}")
+    public ResponseEntity<?> setIsUsed(@PathVariable UUID uuid, @PathVariable UUID volunteerUuid){
+        lotteryTicketService.setisUsed(uuid, volunteerUuid);
         return ResponseEntity.noContent().build();
     }
 
@@ -75,7 +70,7 @@ public class RestLotteryTicketController {
     @PutMapping("/winner/{uuid}")
     public ResponseEntity<?> setWinner(@PathVariable UUID uuid){
         UUID userId = lotteryTicketService.setWinner(uuid);
-        Long ticketNumber = lotteryTicketService.getTicketById(uuid).getNumber();
+        String ticketNumber = lotteryTicketService.getTicketById(uuid).getNumber();
         messagingTemplate.convertAndSend("/topic/winner", new WinnerMessage(userId, ticketNumber));
         return ResponseEntity.noContent().build();
     }
