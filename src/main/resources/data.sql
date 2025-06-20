@@ -1,3 +1,4 @@
+drop table user_ticket;
 create view public.user_ticket(user_id, ticket_id) as
 SELECT u.domain_id  AS user_id,
        lt.domain_id AS ticket_id

@@ -1,0 +1,7 @@
+.idea/
+*.iml
+*.iws
+
+.sonar/
+.sonarlint/
+src/main/resources/application.properties

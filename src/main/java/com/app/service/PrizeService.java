@@ -28,7 +28,7 @@ public class PrizeService {
     }
 
     public Map<String, Integer> countPrizesByName() {
-        Map<String, Integer> prizeMap = new HashMap<>();
+        Map<String, Integer> prizeMap = new TreeMap<>();
         List<Prize> prizeList = new ArrayList<>(getAllPrizes());
         prizeList.sort(Comparator.comparing(Prize::getName).reversed());
         for (Prize prize : prizeList) {
